@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="PomodoroTimer.App/PomodoroTimer.App.csproj" />
+  <Project Path="PomodoroTimer.Core/PomodoroTimer.Core.csproj" />
+</Solution>

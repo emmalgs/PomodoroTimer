@@ -1,0 +1,16 @@
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:PomodoroTimer.App.ViewModels" mc:Ignorable="d" d:DesignWidth="800"
+    d:DesignHeight="450" x:Class="PomodoroTimer.App.MainWindow" Title="PomodoroTimer.App"
+    x:DataType="vm:MainViewModel" Width="400" Height="200">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+        <TextBlock Text="{Binding Title}" FontSize="24" HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding TimeRemaining}" FontSize="36" HorizontalAlignment="Center" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+            <Button Command="{Binding StartCommand}" Content="Start" />
+            <Button Command="{Binding PauseCommand}" Content="Pause" />
+            <Button Command="{Binding ResetCommand}" Content="Reset" />
+        </StackPanel>
+    </StackPanel>
+</Window>
