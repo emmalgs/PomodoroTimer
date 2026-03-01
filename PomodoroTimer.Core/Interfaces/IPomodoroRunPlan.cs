@@ -1,4 +1,4 @@
 public interface IPomodoroRunPlan
 {
-    IReadOnlyList<PomodoroBlock> Blocks { get; }
+  IReadOnlyList<PomodoroBlock> Blocks { get; }
 }
