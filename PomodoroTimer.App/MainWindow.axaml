@@ -8,9 +8,9 @@
         <TextBlock Text="{Binding Title}" FontSize="24" HorizontalAlignment="Center" />
         <TextBlock Text="{Binding TimeRemaining}" FontSize="36" HorizontalAlignment="Center" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-            <Button Command="{Binding StartCommand}" Content="Start" />
-            <Button Command="{Binding PauseCommand}" Content="Pause" />
-            <Button Command="{Binding ResetCommand}" Content="Reset" />
+            <Button Content="Start" />
+            <Button Content="Pause" />
+            <Button Content="Reset" />
         </StackPanel>
     </StackPanel>
 </Window>
