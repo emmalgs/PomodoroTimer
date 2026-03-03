@@ -17,7 +17,7 @@
                 Value="{Binding SessionCount}"
                 Width="120"
                 HorizontalAlignment="Center" />
-            <Button Content="Begin" />
+            <Button Content="Begin" Command="{Binding BeginCommand}" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
             <TextBlock
@@ -28,9 +28,9 @@
                 Text="{Binding DisplayTime}"
                 FontSize="24"
                 HorizontalAlignment="Center" />
-            <Button IsEnabled="{Binding IsRunning}" Content="Start" />
-            <Button IsEnabled="{Binding IsRunning}" Content="Pause" />
-            <Button IsEnabled="{Binding IsRunning}" Content="Reset" />
+            <Button IsEnabled="{Binding IsRunning}" Content="Start" Command="{Binding StartCommand}"/>
+            <Button IsEnabled="{Binding IsRunning}" Content="Pause" Command="{Binding PauseCommand}"/>
+            <Button IsEnabled="{Binding IsRunning}" Content="Reset" Command="{Binding ResetCommand}"/>
         </StackPanel>
     </StackPanel>
 </Window>

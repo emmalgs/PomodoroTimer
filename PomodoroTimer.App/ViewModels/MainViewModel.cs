@@ -57,7 +57,7 @@ public partial class MainViewModel : ObservableObject
   // Commands
   // =========================
   [RelayCommand]
-  private void Begin()
+  public void Begin()
   {
     _engine.StartSession(
         SessionCount,
@@ -70,21 +70,21 @@ public partial class MainViewModel : ObservableObject
   }
 
   [RelayCommand]
-  private void Start()
+  public void Start()
   {
     _engine.Start();
     IsRunning = true;
   }
 
   [RelayCommand]
-  private void Pause()
+  public void Pause()
   {
     _engine.Pause();
     IsRunning = false;
   }
 
   [RelayCommand]
-  private void Reset()
+  public void Reset()
   {
     _engine.Reset();
     IsRunning = false;
