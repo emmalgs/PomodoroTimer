@@ -5,18 +5,19 @@ namespace PomodoroTimer.Core.Runner;
 public class PomodoroRunner : IPomodoroRunner
 {
   private readonly IClock _clock;
-  private readonly PomodoroRunPlan _plan;
+  private readonly IPomodoroRunPlan _plan;
   private int _currentBlockIndex;
 
   public event Action<PomodoroBlock>? BlockStarted;
   public event Action<PomodoroBlock>? BlockCompleted;
   public event Action? RunCompleted;
+  public event Action<TimeSpan>? Tick;
 
   public PomodoroBlock? CurrentBlock { get; private set; }
   public TimeSpan Remaining { get; private set; }
   public bool IsRunning { get; private set; }
 
-  public PomodoroRunner(PomodoroRunPlan plan, IClock clock)
+  public PomodoroRunner(IPomodoroRunPlan plan, IClock clock)
   {
     _plan = plan ?? throw new ArgumentNullException(nameof(plan));
     _clock = clock ?? throw new ArgumentNullException(nameof(clock));
@@ -37,6 +38,8 @@ public class PomodoroRunner : IPomodoroRunner
       return;
 
     Remaining -= delta;
+    Tick?.Invoke(Remaining);
+    
     if (Remaining <= TimeSpan.Zero)
     {
       BlockCompleted?.Invoke(CurrentBlock);

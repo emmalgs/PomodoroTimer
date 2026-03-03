@@ -1,66 +1,103 @@
-using PomodoroTimer.Core.Services;
+using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using PomodoroTimer.Core.Engine;
 
 namespace PomodoroTimer.App.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-  private readonly TimerService _timerService;
+  private readonly PomodoroEngine _engine;
+
+  private readonly TimeSpan _focus = TimeSpan.FromMinutes(25);
+  private readonly TimeSpan _shortBreak = TimeSpan.FromMinutes(5);
+  private readonly TimeSpan _longBreak = TimeSpan.FromMinutes(15);
+  public MainViewModel()
+  {
+    _engine = new PomodoroEngine();
+    _engine.BlockStarted += HandleBlockStarted;
+    _engine.Tick += HandleTick;
+  }
+  // =========================
+  // User Input
+  // =========================
 
   [ObservableProperty]
-  private string _title = "Pomodoro Timer 🍅";
+  private int _sessionCount = 1;
 
   [ObservableProperty]
   private bool _isRunning;
 
-  [ObservableProperty]
-  private string _startPauseText = "Start";
+  public bool CanEditSessions => !IsRunning;
 
-  [ObservableProperty]
-  private string _timeRemaining = "25:00";
-
-  public MainViewModel()
+  partial void OnIsRunningChanged(bool value)
   {
-    _timerService = new TimerService();
-    _timerService.Reset(25);
+    OnPropertyChanged(nameof(CanEditSessions));
+  }
+  // =========================
+  // Display Properties
+  // =========================
+  [ObservableProperty]
+  private string _title = "LE TIMER";
 
+  [ObservableProperty]
+  private string _currentBlockName = "Ready";
 
-    _timerService.OnTick += seconds =>
-    {
-      var minutes = seconds / 60;
-      var secs = seconds % 60;
-      TimeRemaining = $"{minutes:D2}:{secs:D2}";
-    };
-    _timerService.OnTimerFinished += () =>
-    {
-      Title = "Pomodoro Finished!";
-    };
+  [ObservableProperty]
+  private TimeSpan _remaining;
+
+  public string DisplayTime => $"{Remaining:mm\\:ss}";
+
+  partial void OnRemainingChanged(TimeSpan value)
+  {
+    OnPropertyChanged(nameof(DisplayTime));
+  }
+
+  // =========================
+  // Commands
+  // =========================
+  [RelayCommand]
+  private void Begin()
+  {
+    _engine.StartSession(
+        SessionCount,
+        _focus,
+        _shortBreak,
+        _longBreak
+    );
+
+    IsRunning = true;
   }
 
   [RelayCommand]
-  private void ToggleTimer()
+  private void Start()
   {
-    if (_timerService.IsRunning)
-    {
-      _timerService.Pause();
-      IsRunning = false;
-      StartPauseText = "Start";
-    }
-    else
-    {
-      _timerService.Start();
-      IsRunning = true;
-      StartPauseText = "Pause";
-    }
+    _engine.Start();
+    IsRunning = true;
   }
 
   [RelayCommand]
-  public void Reset()
+  private void Pause()
   {
-    _timerService.Reset(25);
-    Title = "Pomodoro Timer 🍅";
+    _engine.Pause();
     IsRunning = false;
-    StartPauseText = "Start";
+  }
+
+  [RelayCommand]
+  private void Reset()
+  {
+    _engine.Reset();
+    IsRunning = false;
+  }
+
+  private void HandleBlockStarted(PomodoroBlock block)
+  {
+    CurrentBlockName = block.State.ToString();
+    Remaining = block.Duration;
+  }
+
+  private void HandleTick(TimeSpan remaining)
+  {
+    Remaining = remaining;
   }
 }

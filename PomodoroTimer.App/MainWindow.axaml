@@ -5,12 +5,32 @@
     d:DesignHeight="450" x:Class="PomodoroTimer.App.MainWindow" Title="PomodoroTimer.App"
     x:DataType="vm:MainViewModel" Width="400" Height="200">
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-        <TextBlock Text="{Binding Title}" FontSize="24" HorizontalAlignment="Center" />
-        <TextBlock Text="{Binding TimeRemaining}" FontSize="36" HorizontalAlignment="Center" />
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-            <Button Content="Start" />
-            <Button Content="Pause" />
-            <Button Content="Reset" />
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Spacing="10">
+            <TextBlock Text="{Binding Title}" FontSize="24" HorizontalAlignment="Center" />
+            <TextBlock Text="Sessions"
+                HorizontalAlignment="Center" />
+            <NumericUpDown
+                IsEnabled="{Binding CanEditSessions}"
+                Minimum="1"
+                Maximum="8"
+                Increment="1"
+                Value="{Binding SessionCount}"
+                Width="120"
+                HorizontalAlignment="Center" />
+            <Button Content="Begin" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+            <TextBlock
+                Text="{Binding CurrentBlockName}"
+                FontSize="24"
+                HorizontalAlignment="Center" />
+            <TextBlock
+                Text="{Binding DisplayTime}"
+                FontSize="24"
+                HorizontalAlignment="Center" />
+            <Button IsEnabled="{Binding IsRunning}" Content="Start" />
+            <Button IsEnabled="{Binding IsRunning}" Content="Pause" />
+            <Button IsEnabled="{Binding IsRunning}" Content="Reset" />
         </StackPanel>
     </StackPanel>
 </Window>
